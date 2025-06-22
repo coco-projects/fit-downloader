@@ -1,1 +1,9 @@
-# fit-downloader
+## usage
+
+see examples folder
+
+---
+
+## License
+
+MIT
