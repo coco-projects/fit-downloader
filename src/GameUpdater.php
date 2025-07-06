@@ -1150,6 +1150,13 @@ AAA
                 $requestInfo = $_this->getRequestInfoByIndex($index);
 
                 $code = $e->getCode();
+                if ($code == '403')
+                {
+                    $this->gameManager->getMysqlClient()->logInfo('【403】 需要更新cookie');
+
+                    exit();
+                }
+
                 if (in_array($code, [
                     '403',
                     '404',
