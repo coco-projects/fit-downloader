@@ -9,6 +9,8 @@
         'mysqlHost'      => '127.0.0.1',
         'mysqlPort'      => 3306,
         'imageBaseUrl'   => 'http://dev6084/fit_game/demo/data/',
+
+        //clash 代理必须开全局模式以保持稳定
         'proxy'          => 'http://192.168.0.111:1080',
         'websiteTitle'   => 'HohohoGames',
         'cachePath'      => '../downloadCache',
