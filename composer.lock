@@ -252,16 +252,16 @@
         },
         {
             "name": "coco-project/matomo-client",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coco-projects/matomo-client.git",
-                "reference": "a68bf9fe4159a434bd54f8a75dc2d9c37d587c82"
+                "reference": "ccbdd31a6273944003631dea865d33dd6478c56e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coco-projects/matomo-client/zipball/a68bf9fe4159a434bd54f8a75dc2d9c37d587c82",
-                "reference": "a68bf9fe4159a434bd54f8a75dc2d9c37d587c82",
+                "url": "https://api.github.com/repos/coco-projects/matomo-client/zipball/ccbdd31a6273944003631dea865d33dd6478c56e",
+                "reference": "ccbdd31a6273944003631dea865d33dd6478c56e",
                 "shasum": ""
             },
             "require": {
@@ -288,9 +288,9 @@
             ],
             "support": {
                 "issues": "https://github.com/coco-projects/matomo-client/issues",
-                "source": "https://github.com/coco-projects/matomo-client/tree/v1.0.6"
+                "source": "https://github.com/coco-projects/matomo-client/tree/v1.0.7"
             },
-            "time": "2025-09-11T09:47:33+00:00"
+            "time": "2025-10-31T14:39:29+00:00"
         },
         {
             "name": "coco-project/queue",
@@ -550,16 +550,16 @@
         },
         {
             "name": "coco-project/wp",
-            "version": "v1.0.38",
+            "version": "v1.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/coco-projects/wp.git",
-                "reference": "8a28ccd8590d94ce4618a3e49d3c4ee067bcae25"
+                "reference": "d7719aebaa366c78e182232e992b2c1e48515507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/coco-projects/wp/zipball/8a28ccd8590d94ce4618a3e49d3c4ee067bcae25",
-                "reference": "8a28ccd8590d94ce4618a3e49d3c4ee067bcae25",
+                "url": "https://api.github.com/repos/coco-projects/wp/zipball/d7719aebaa366c78e182232e992b2c1e48515507",
+                "reference": "d7719aebaa366c78e182232e992b2c1e48515507",
                 "shasum": ""
             },
             "require": {
@@ -587,9 +587,9 @@
             ],
             "support": {
                 "issues": "https://github.com/coco-projects/wp/issues",
-                "source": "https://github.com/coco-projects/wp/tree/v1.0.38"
+                "source": "https://github.com/coco-projects/wp/tree/v1.0.39"
             },
-            "time": "2025-10-30T09:43:00+00:00"
+            "time": "2025-10-31T14:53:36+00:00"
         },
         {
             "name": "fakerphp/faker",

@@ -1182,7 +1182,7 @@ AAA
         // to wp
         /**********************************************************************************/
 
-        public function updateToDb(callable $payPostCallback = null, int $minPrice = 30, int $maxPrice = 90): void
+        public function updateToDb(callable $payPostCallback = null, int $minPrice = 30, int $maxPrice = 90,bool $insertOnly = false): void
         {
             $gameImagesTable = $this->gameManager->getGameImagesTable();
             $gameTable       = $this->gameManager->getGameTable();
@@ -1265,65 +1265,68 @@ AAA
                 }
             }
 
-            /*
-          * ------------------------------
-          * 待更新
-          * ------------------------------
-          *
-          * **/
-            $posts = $gameTable->tableIns()->where($gameTable->getPkField(), 'in', $arrs['toUpdateWp'])->select()
-                ->toArray();
-
-            $this->wpManager->getMysqlClient()->logInfo('更新文章个数: ' . count($posts));
-            foreach ($posts as $k => $post)
+            if (!$insertOnly)
             {
-                $wpPostId = $wpPostTab->tableIns()->where([
-                    [
-                        $wpPostTab->getGuidField(),
-                        '=',
-                        $post[$gameTable->getPkField()],
-                    ],
-                ])->value($wpPostTab->getPkField());
+                /*
+                  * ------------------------------
+                  * 待更新
+                  * ------------------------------
+                  *
+                  * **/
+                $posts = $gameTable->tableIns()->where($gameTable->getPkField(), 'in', $arrs['toUpdateWp'])->select()
+                    ->toArray();
 
-                $postId = $post[$gameTable->getPkField()];
-                $title  = $post[$gameTable->getNameField()];
-
-                $price = call_user_func_array($payPostCallback, [$post]);
-                $isPay = $price > 0;
-
-                $contents = $this->makePostContentByPostInfo($post, $isPay);
-                $this->wpManager->getMysqlClient()->logInfo('更新文章: ' . ($k + 1) . '--' . $title);
-                $this->wpManager->updatePostContentByGuid($postId, $title, $contents);
-
-                $seo_keyword     = $this->websiteTitle . ',' . $post[$gameTable->getNameField()] . ',' . $post[$gameTable->getTagsField()];
-                $seo_description = '';
-                $desc            = json_decode($post[$gameTable->getDescriptionField()], true);
-                if ($desc)
+                $this->wpManager->getMysqlClient()->logInfo('更新文章个数: ' . count($posts));
+                foreach ($posts as $k => $post)
                 {
-                    $seo_description = implode(',', $desc);
+                    $wpPostId = $wpPostTab->tableIns()->where([
+                        [
+                            $wpPostTab->getGuidField(),
+                            '=',
+                            $post[$gameTable->getPkField()],
+                        ],
+                    ])->value($wpPostTab->getPkField());
+
+                    $postId = $post[$gameTable->getPkField()];
+                    $title  = $post[$gameTable->getNameField()];
+
+                    $price = call_user_func_array($payPostCallback, [$post]);
+                    $isPay = $price > 0;
+
+                    $contents = $this->makePostContentByPostInfo($post, $isPay);
+                    $this->wpManager->getMysqlClient()->logInfo('更新文章: ' . ($k + 1) . '--' . $title);
+                    $this->wpManager->updatePostContentByGuid($postId, $title, $contents);
+
+                    $seo_keyword     = $this->websiteTitle . ',' . $post[$gameTable->getNameField()] . ',' . $post[$gameTable->getTagsField()];
+                    $seo_description = '';
+                    $desc            = json_decode($post[$gameTable->getDescriptionField()], true);
+                    if ($desc)
+                    {
+                        $seo_description = implode(',', $desc);
+                    }
+
+                    $this->wpManager->updatePostSeo($wpPostId, $title . " Download", $seo_keyword, $seo_description);
+
+                    if ($isPay)
+                    {
+                        $this->wpManager->makePostPayRead($wpPostId, $price);
+                    }
+                    else
+                    {
+                        $this->wpManager->makePostPayOff($wpPostId);
+                    }
                 }
 
-                $this->wpManager->updatePostSeo($wpPostId, $title . " Download", $seo_keyword, $seo_description);
+                /*
+                 * ------------------------------
+                 * 待删除
+                 * ------------------------------
+                 *
+                 * **/
 
-                if ($isPay)
-                {
-                    $this->wpManager->makePostPayRead($wpPostId, $price);
-                }
-                else
-                {
-                    $this->wpManager->makePostPayOff($wpPostId);
-                }
+                $this->wpManager->getMysqlClient()->logInfo('删除文章个数: ' . count($arrs['toDeleteWp']));
+                $this->wpManager->deletePostByGuid($arrs['toDeleteWp']);
             }
-
-            /*
-             * ------------------------------
-             * 待删除
-             * ------------------------------
-             *
-             * **/
-
-            $this->wpManager->getMysqlClient()->logInfo('删除文章个数: ' . count($arrs['toDeleteWp']));
-            $this->wpManager->deletePostByGuid($arrs['toDeleteWp']);
 
             /*
              * ------------------------------
@@ -1332,7 +1335,6 @@ AAA
              *
              * **/
             $this->wpManager->updateTagsCount();
-
         }
 
         protected function getAllWpPost(): \think\model\Collection|\think\Collection
