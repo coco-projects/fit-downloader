@@ -9,30 +9,29 @@
         public string $comment = '数据采集表';
 
         public array $fieldsSqlMap = [
-            "name"                 => "`__FIELD__NAME__` VARCHAR (255) COLLATE utf8mb4_unicode_ci COMMENT '名',",
-            "cover_link"           => "`__FIELD__NAME__` VARCHAR (255) COLLATE utf8mb4_unicode_ci COMMENT '封面路径，下载后就是本地path',",
-            "info_url"             => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://zh.riotpixels.com/games/super-monkey-ball-banana-rumble 地址中的游戏名',",
-            "fitgirl_url"          => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://fitgirl-repacks.site/rising-sun-iron-aces/ fitgirl地址',",
-            "fitgirl_publish_time" => "`__FIELD__NAME__` INT (10) UNSIGNED NOT NULL DEFAULT '0',",
-            "tags"                 => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签',",
-            "company"              => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '公司',",
-            "lang"                 => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Languages',",
-            "original_size"        => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Original Size',",
-            "repack_size"          => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Repack Size',",
-            "raw_html"             => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Description',",
-            "features"             => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Features 一行一个',",
-            "description"          => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Description',",
-            "discussion_url"       => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://cs.rin.ru/forum/viewtopic.php?f=10&t=146381 讨论地址',",
-            "1337x_url"            => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://1337x.to/torrent/6084690/Red-Dead-Redemption-2-Ultimate-Edition-Build-1491-50-UE-Unlocker-MULTi13-FitGirl-Repack/ 下载地址',",
-
-            "download_links" => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '下载地址 json',",
-            "updates_links"  => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '更新地址 json',",
-            "website_links"  => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '官网地址这些 json',",
-
+            "name"                    => "`__FIELD__NAME__` VARCHAR (255) COLLATE utf8mb4_unicode_ci COMMENT '名',",
+            "cover_link"              => "`__FIELD__NAME__` VARCHAR (255) COLLATE utf8mb4_unicode_ci COMMENT '封面路径，下载后就是本地path',",
+            "info_url"                => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://zh.riotpixels.com/games/super-monkey-ball-banana-rumble 地址中的游戏名',",
+            "fitgirl_url"             => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://fitgirl-repacks.site/rising-sun-iron-aces/ fitgirl地址',",
+            "fitgirl_publish_time"    => "`__FIELD__NAME__` INT (10) UNSIGNED NOT NULL DEFAULT '0',",
+            "tags"                    => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '标签',",
+            "company"                 => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '公司',",
+            "lang"                    => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Languages',",
+            "original_size"           => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Original Size',",
+            "repack_size"             => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Repack Size',",
+            "raw_html"                => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Description',",
+            "features"                => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Features 一行一个',",
+            "description"             => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT 'Description',",
+            "discussion_url"          => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://cs.rin.ru/forum/viewtopic.php?f=10&t=146381 讨论地址',",
+            "1337x_url"               => "`__FIELD__NAME__` CHAR(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'https://1337x.to/torrent/6084690/Red-Dead-Redemption-2-Ultimate-Edition-Build-1491-50-UE-Unlocker-MULTi13-FitGirl-Repack/ 下载地址',",
+            "download_links"          => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '下载地址 json',",
+            "updates_links"           => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '更新地址 json',",
+            "website_links"           => "`__FIELD__NAME__` LONGTEXT COLLATE utf8mb4_unicode_ci COMMENT '官网地址这些 json',",
             "cover_link_fetch_status" => "`__FIELD__NAME__` TINYINT (11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '封面图，0:未下载图片，1:下载中，2:下载完成',",
             "image_fetch_status"      => "`__FIELD__NAME__` TINYINT (11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '截图，0:未下载图片，1:下载中，2:下载完成',",
-
-            "add_time" => "`__FIELD__NAME__` INT (10) UNSIGNED NOT NULL DEFAULT '0',",
+            "tg_file_id"              => "`__FIELD__NAME__` char(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '' COMMENT '机器人将图片上传到群组后返回的 file_id',",
+            "tg_bot_token"            => "`__FIELD__NAME__` char(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT '' COMMENT '上传的机器人的token',",
+            "add_time"                => "`__FIELD__NAME__` INT (10) UNSIGNED NOT NULL DEFAULT '0',",
         ];
 
         protected array $indexSentence = [
@@ -290,4 +289,30 @@
         {
             return $this->getFieldName('add_time');
         }
+
+
+        public function setTgFileIdField(string $value): static
+        {
+            $this->setFeildName('tg_file_id', $value);
+
+            return $this;
+        }
+
+        public function getTgFileIdField(): string
+        {
+            return $this->getFieldName('tg_file_id');
+        }
+
+        public function setTgBotTokenField(string $value): static
+        {
+            $this->setFeildName('tg_bot_token', $value);
+
+            return $this;
+        }
+
+        public function getTgBotTokenField(): string
+        {
+            return $this->getFieldName('tg_bot_token');
+        }
+
     }

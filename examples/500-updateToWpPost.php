@@ -2,9 +2,9 @@
 
     require './common.php';
 
-    $gameUpdater->updateToDb(function($post) use ($gameUpdater) {
+    $func = function($post, \Coco\fitDownloader\GameUpdater $_this) {
 
-        $gameTable = $gameUpdater->gameManager->getGameTable();
+        $gameTable = $_this->gameSourceManager->getGameTable();
 
         $tags          = explode(',', $post[$gameTable->getTagsField()]);
         $downloadLinks = json_decode($post[$gameTable->getDownloadLinksField()], 1);
@@ -36,11 +36,11 @@
         // ------------------------------------------------------
         //根据文件大小给价格
         //超过这个大小就收费
-        $baseSize = $gameUpdater::convertToBytes('4G');
+        $baseSize = $_this::convertToBytes('4G');
 
         //文件大小
         $size     = preg_replace('/([\d.,]+)\s*([MG])/imu', '$1$2', $post[$gameTable->getOriginalSizeField()]);
-        $byteSize = $gameUpdater::convertToBytes($size);
+        $byteSize = $_this::convertToBytes($size);
 
         //如果文件大于指定
         if ($byteSize > $baseSize)
@@ -54,4 +54,10 @@
 
         // ------------------------------------------------------
         return 0;
-    });
+    };
+
+    $typeId     = 249;
+    $insertOnly = false;
+
+    $gameUpdater->updateToWpPost($func, $typeId, $insertOnly);
+

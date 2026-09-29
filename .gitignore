@@ -2,3 +2,6 @@
 /.build/
 /.phpstan.txt
 /nohup.out
+/examples/data
+/examples/process
+/examples/downloadCache

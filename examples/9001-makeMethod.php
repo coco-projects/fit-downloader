@@ -4,7 +4,6 @@
 
     require './common.php';
 
-//    $method = TableRegistry::makeMethod($gameManager->getGameTable()->getFieldsSqlMap());
-    $method = TableRegistry::makeMethod($gameUpdater->gameManager->getGameTable()->getFieldsSqlMap());
+    $method = TableRegistry::makeMethod($gameUpdater->gameSourceManager->getGameImagesTable()->getFieldsSqlMap());
 
     print_r($method);

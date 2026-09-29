@@ -4,5 +4,5 @@
 
     //建表
 //    $gameUpdater->gameManager->dropAllTable();
-    $gameUpdater->gameManager->createAllTable(true);
+    $gameUpdater->gameSourceManager->createAllTable(true);
 

@@ -5,46 +5,65 @@
     require '../vendor/autoload.php';
 
     $headerStr = <<<AAA
-sec-ch-ua: "Chromium";v="142", "Google Chrome";v="142", "Not_A Brand";v="99"
+sec-ch-ua: "Google Chrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
 sec-ch-ua-mobile: ?0
-sec-ch-ua-full-version: "142.0.7444.59"
+sec-ch-ua-full-version: "153.0.8010.53"
 sec-ch-ua-arch: "x86"
 sec-ch-ua-platform: "Windows"
 sec-ch-ua-platform-version: "7.0.0"
 sec-ch-ua-model: ""
 sec-ch-ua-bitness: "64"
-sec-ch-ua-full-version-list: "Chromium";v="142.0.7444.59", "Google Chrome";v="142.0.7444.59", "Not_A Brand";v="99.0.0.0"
+sec-ch-ua-full-version-list: "Google Chrome";v="153.0.8010.53", "Not_A Brand";v="8.0.0.0", "Chromium";v="153.0.8010.53"
 Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: none
+Sec-Fetch-Site: same-site
 Sec-Fetch-Mode: navigate
 Sec-Fetch-User: ?1
 Sec-Fetch-Dest: document
-Accept-Encoding: gzip, deflate, br, zstd
+Referer: https://ru.riotpixels.com/
 Accept-Language: zh-CN,zh;q=0.9
-Cookie: rp_utc_offset=28800; adtech_uid=8c2ae521-18bd-4cab-bbfd-47bf4b6c4324%3Ariotpixels.com; top100_id=t1.2946854.936623344.1744129651923; rp_cdn_tld=net; _ym_uid=1744129653460490950; tmr_lvid=0671aa1fdd692ae4fade43b35ec72622; tmr_lvidTS=1744129653411; rp_language_suggestion_skip=1; rp_games-wallpaper.list=matrix; rp_s.bar_menu=1; cf_clearance=GSMbLQ2mGytgTL5BBq1pVcR9YLFrKW4X9hypd5y_10w-1748097680-1.2.1.1-PxyFy9GAPlQj76d0ADX42Dw487GJ1ASWonPgjPvU1faqmQ.EfbcvqqEC9fH3ColiItbYgZWXe_83F_xlc2UPL05NbvFmxOwYz4cqI1wb_XEphMPLoUZZdjUu__oAoxYwFJcyZi9ru1y.OdB7rsJc_wyjBKNNl05Fn.n0.X9pUgIerYZgQjMyRvWql0wy3NivWTL7LP1ykPNYLp.k7ZxKNyWQEB5IemNUs_.Ykj8YjKrx72Ir2aKtkazE8OdvzlhRlo1ZkqDiOoqlMgWzQtU4FZLOjcpaXrZhvzNT8daClq02tPdH322FfBvFtqvyM3rjiBIGDT0cTAdYBClyFcR.vl_aIZwYNXthvC1EmAeZIqG0jmkBxx2HwPAJAWsiOd6N; __utmz=87815244.1754276319.32.4.utmcsr=ru.riotpixels.com|utmccn=(referral)|utmcmd=referral|utmcct=/; _ym_d=1760018162; rp_cdn_check=1; __utmc=87815244; domain_sid=56qUwdNXEeDSr3mdT2Fvz%3A1762056133537; perf_dv6Tr4n=1; popdown=0; __utma=87815244.1658804745.1744198846.1762095992.1762134778.52; __utmt=1; _ym_isad=1; _ym_visorc=w; cf_clearance=Rzs13Ax.R9amlU93InBytokkxpnLp7daFgEY.5uaPN0-1762134972-1.2.1.1-gTO0LnV7b6WXnG6MgDdgfAgVWPYcO2GFWp67lmt.j_EEtzi.Qg95GwWEsHKJlSeczV89NwHkiM8Fe2eflmHMvt_K00ElAHR5czLfv0V83WY7QC1R09sxBW7ZEYrtU53HmmnZOjwkOEHhlTvUTBqkHyOpA2tJqrJf8c66GQECXRh.yZFqMQrNhwcbaSWPU8i_MUI_J8uFipPMniMY8He5B3qmOqXAERa4M0ltEsfOkWmy82HW3FOY0KeTEAL_ws01; rp_session=eyIuY3NyZiI6eyIgYiI6IlptUmlabU16WVRrMk9UQXhaRGRrWTJFek56YzNZbUl6WkdWa056SXpaakE9In19.G-mdPQ.0_Oo4eVnFYDcseFzCxPzOWzY8j4; __utmb=87815244.12.8.1762134855765; t3_sid_2946854=s1.1866110303.1762134778656.1762134855835.22.6.4.1..; tmr_detect=0%7C1762134858550
+Cookie: tmr_lvid=d7a506bbf84ba76dd79742d05a41717f; tmr_lvidTS=1770020759034; _ym_uid=1770020759755697874; _ym_d=1786286890; rp_utc_offset=28800; rp_cdn_tld=net; adtech_uid=97d238f4-61ee-4858-a042-41d18e6054ae%3Ariotpixels.com; top100_id=t1.2946854.435900933.1786286895058; perf_dv6Tr4n=1; __utmc=87815244; rp_language_suggestion_skip=1; popdown=0; _ym_visorc=b; rp_cdn_check=1; _ym_isad=1; cf_clearance=gSgRfoIENXo2erG8t_2hmZAu2hzrZfAnRhjWsxYu3x0-1790090328-1.2.1.1-4TuTMoiXNf7r1hq7ybfONv3LDeNWSY8QWxJGMsF26xtODB8g6ZyjJRSEI8p_AdR7fUvpGh0IJWMQlw8mwBeBoe4Aix3Aq0AnUef7OvVNMLb5cyunDoVfxZVm0EGj3kQ6P3yxe._Xt8HVjda0bx9TxI_FwBm9A_WTnYL53buZUwQfXjZcaHMBVoiOu6p_5SDRzJ_tY1pslPIIXsDMDnyPlDalzYNY8uqAlnb2FIVo1jTbc.ZAlqrmLEl3gzD6OXeId336G46YYV5sf5jUohiz8haB4vm1pagwH34dvR0N4JAT1Uw0vab_K9RKg4UIcer8mtFfnKTE0h.qlXEm1lBffaEj6cUJEwd.bKttOft.0LSOBA63u8CALYjWwb4NY9wl5RRtU8l7Yt8run4u7xdK..Zjh.FRcgQR56qDqlwmelEf21HkGu.IVtHPWEZv26s1ZT1hDP2LBxKgFzDy1RXIg34QPMQ1dB.wCBlaEpBAU5PQ_O6nDvn5aY0neUXp9NxQ; rp_session=eyIuY3NyZiI6eyIgYiI6IlpURXhaak0wTlRZd1pqUTNORGN5TVRnNE5XWmlNVFkyT1RJeE4yVmlaVGM9In19.HZQt5Q.mS_NLWYcOsj4bmTKVmZ2-zf-5VQ; __utma=87815244.393941936.1786286926.1789531037.1790090320.4; __utmz=87815244.1790090320.4.2.utmcsr=ru.riotpixels.com|utmccn=(referral)|utmcmd=referral|utmcct=/; __utmt=1; __utmb=87815244.2.9.1790090320; t3_sid_2946854=s1.729512012.1790090183153.1790090320514.4.6.4.1...0; domain_sid=o-ik46k06TFCSp-McQWN9%3A1790090322758; tmr_detect=0%7C1790090323332
 
 AAA;
 
     $config = [
-        'mysqlUsername'  => 'root',
-        'mysqlPassword'  => 'root',
-        //                'mysqlDbName'    => 'wordpress_game_cn',
-        'mysqlDbName'    => 'wordpress_game_en',
-        'mysqlHost'      => '127.0.0.1',
-        'mysqlPort'      => 3306,
-        'imageBaseUrl'   => 'http://dev6084/fit_game/demo/data/',
+        /**********************************/
+        'mysqlUsername'       => 'root',
+        'mysqlPassword'       => 'root',
+        'mysqlDbName'         => 'wordpress_hohoho',
+        //        'mysqlDbName'   => 'wordpress_game_cn_translate',
+        'mysqlHost'           => '127.0.0.1',
+        'mysqlPort'           => 3306,
+
+        /**********************************/
+        'postTgBotToken'      => '8056835067:AAFIqZ8feQtKgw_m0_ADnHswh_eYRgqfsw8',
+        'postTgChatId'        => 5314592797,
+        'processPath'         => './process',
+        'postTgSleepMin'      => 6,
+        'postTgSleepMax'      => 10,
+
+        /**********************************/
+        'backupImageBotToken' => '8056835067:AAFIqZ8feQtKgw_m0_ADnHswh_eYRgqfsw8',
+        'backupImageChatId'   => [
+            5314592797,
+        ],
+        'backupImageSleepMin' => 6,
+        'backupImageSleepMax' => 10,
+
+        /**********************************/
+        'cachePath'           => './downloadCache',
+        //        'imageBaseUrl'        => 'https://static.hohohogames.com/game-images/',
+        'imageBaseUrl'        => 'http://dev6026/coco-fitDownloader/examples/data/',
+        'imagePath'           => 'data',
+
+        'mainSite' => 'https://www.hohohogames.com/',
+
         'debug'          => true,
-
-
-        //clash必须开全局模式以保持稳定
+        'concurrency'    => 5,
+        'redisLogEnable' => true,
         'proxy'          => 'http://192.168.0.111:1080',
         'websiteTitle'   => 'HohohoGames',
-        'cachePath'      => '../downloadCache',
-        'imagesMaxCount' => 15,
-        'concurrency'    => 20,
-        'retryTimes'     => 18,
         'headerStr'      => $headerStr,
         "infoUrlMap"     => [
             "https://en.riotpixels.com/games/aliens-vs-predator-2010"                => "https://en.riotpixels.com/games/aliens-vs-predator/",
@@ -66,15 +85,17 @@ AAA;
             "https://en.riotpixels.com/games/tales-of-graces-f"                      => "https://en.riotpixels.com/games/tales-of-graces/",
             "https://en.riotpixels.com/games/bulwark-falconeer-chronicles"           => "https://en.riotpixels.com/games/bulwark-evolution-falconeer-chronicles/",
 
-            "https://en.riotpixels.com/games/ravens-cry"     => "https://en.riotpixels.com/games/vendetta-curse-of-ravens-cry/",
-            "https://en.riotpixels.com/games/formula-fusion" => "https://en.riotpixels.com/games/pacer/",
+            "https://en.riotpixels.com/games/ravens-cry"                     => "https://en.riotpixels.com/games/vendetta-curse-of-ravens-cry/",
+            "https://en.riotpixels.com/games/formula-fusion"                 => "https://en.riotpixels.com/games/pacer/",
+            "https://en.riotpixels.com/games/gold-rush-the-game/screenshots" => "https://en.riotpixels.com/games/gold-mining-simulator/screenshots/",
         ],
     ];
 
     $gameUpdater = new \Coco\fitDownloader\GameUpdater($config);
+    $gameUpdater->setLangCn();
 
-    $imagePath = '/var/game-images/';
-//    $imagePath = 'data';
+//    $imagePath = '/var/game-images/';
+    $imagePath = 'data';
 
     $wait = 2;
     //1,跑 demo1
