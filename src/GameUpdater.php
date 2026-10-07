@@ -121,12 +121,12 @@
                 "cn" => "抱歉，当前游戏暂无下载资源！",
             ],
             "only_magnet"                     => [
-                "en" => 'This page only offers magnet links. If you can\'t find a working magnet link, please head to the official website to check for other download options.',
-                "cn" => "此处仅提供磁力链接，如果没有可用磁力链接，请前往网站寻找其他下载渠道",
+                "en" => 'Please go to the main website and search for the name of the current game; the page provides more download channels.',
+                "cn" => "请前往主站搜索当前游戏名，页面上有更多下载渠道提供",
             ],
             "manual_download"                 => [
-                "en" => 'Notice: Telegram does not support clicking to automatically open magnet links. Please manually copy the magnet link below and paste it into your torrent client to download.',
-                "cn" => "提示：Telegram 无法点击自动跳转磁力链接，请手动复制下方磁力链接，使用磁力客户端下载",
+                "en" => 'Tip: Please manually copy the magnet link below and use a magnet client to download. If the link below fails to work, please go to the main website and search for the name of the current game, as the page provides more available download channels.',
+                "cn" => "提示：手动复制下方磁力链接，使用磁力客户端下载，如果下方链接无法下载，请前往主站搜索当前游戏名，页面上有更多下载渠道提供",
             ],
             "more_game"                       => [
                 "en" => 'For more free standalone game downloads, please head to our official main site.',
@@ -619,10 +619,10 @@
 
             $rightSide = [
                 WpTag::groupGrid([
-                    WpTag::p(Tag::span($this->langEcho('original_size')) . Tag::strong($post[$gameTable->getOriginalSizeField()])),
-                    WpTag::p(Tag::span($this->langEcho('repack_size')) . Tag::strong($post[$gameTable->getRepackSizeField()])),
-                    WpTag::p(Tag::span($this->langEcho('languages')) . Tag::strong($post[$gameTable->getLangField()])),
-                    WpTag::p(Tag::span($this->langEcho('companies')) . Tag::strong($post[$gameTable->getCompanyField()])),
+                    WpTag::p(Tag::span($this->langEcho('original_size')) . ': ' . Tag::strong($post[$gameTable->getOriginalSizeField()])),
+                    WpTag::p(Tag::span($this->langEcho('repack_size')) . ': ' . Tag::strong($post[$gameTable->getRepackSizeField()])),
+                    WpTag::p(Tag::span($this->langEcho('languages')) . ': ' . Tag::strong($post[$gameTable->getLangField()])),
+                    WpTag::p(Tag::span($this->langEcho('companies')) . ': ' . Tag::strong($post[$gameTable->getCompanyField()])),
                 ], 1, null),
             ];
 
@@ -729,6 +729,7 @@
             }
 
             $downloadLinksGroup = array_reverse($downloadLinksGroup);
+            $textLen            = 80;
 
             /*
                         //下载链接：无按钮，纯链接
@@ -801,12 +802,13 @@
 
                     foreach ($v['links'] as $k1 => $link)
                     {
-                        $linkBtns[] = Tag::a($link, substr($link, 0, 80), 'red');
+                        $text       = strlen($link) > $textLen ? substr($link, 0, $textLen) . '...' : $link;
+                        $linkBtns[] = Tag::a($link, $text, 'red');
                     }
 
                     $downloadUrls[] = [
                         "title"   => $v['title'],
-                        //                        "content" => WpTag::listQuote($linkBtns, 'red'),
+                        //"content" => WpTag::listQuote($linkBtns, 'red'),
                         "content" => WpTag::list($linkBtns, 'red'),
                     ];
                 }
@@ -932,7 +934,11 @@
 
             is_dir(dirname($processFile)) or mkdir(dirname($processFile), 0755, true);
 
-            $processPostId = (int)file_get_contents($processFile);
+            $processPostId = 0;
+            if (is_file($processFile))
+            {
+                $processPostId = (int)file_get_contents($processFile);
+            }
 
             $where = [];
 
@@ -957,7 +963,7 @@
                 '1287912366972862744',
             ])->page(1, 100)*/
 
-                ->where($where)->order($gameTable->getPkField())->column($gameTable->getPkField());
+            ->where($where)->order($gameTable->getPkField())->column($gameTable->getPkField());
 
             $posts = $gameTable->tableIns()->where($gameTable->getPkField(), 'in', $postIds)->select()->toArray();
 
@@ -1061,7 +1067,7 @@
                 break;
             }
 
-            //如果有剧照就放到第一张图
+            //如果有剧照就放到第一张图9
             if ($tgFileId)
             {
                 array_unshift($images, $tgFileId);
@@ -1087,6 +1093,7 @@
             //-------------------------------------------------
             $downloadParts   = [];
             $downloadParts[] = TelegramTagHTML::title('[' . $post[$gameTable->getPkField()] . '] ');
+
             $downloadParts[] = TelegramTagHTML::line();
             $downloadParts[] = TelegramTagHTML::kv($this->langEcho('game_name'), $post[$gameTable->getNameField()]);
             $downloadParts[] = TelegramTagHTML::br();
@@ -1109,7 +1116,8 @@
             if ($downloadLink)
             {
                 $downloadParts[] = TelegramTagHTML::b($this->langEcho('manual_download'));
-                $downloadParts[] = TelegramTagHTML::blockquote($downloadLink);
+                $downloadParts[] = TelegramTagHTML::title($this->langEcho('download_mirrors') . ':');
+                $downloadParts[] = TelegramTagHTML::blockquote(static::limitMagnetTrackers($downloadLink,5));
             }
             else
             {
@@ -1122,6 +1130,54 @@
             $result['images']   = $images;
 
             return $result;
+        }
+
+
+        /**
+         * 截断 magnet 链接中的 tracker，只保留前 N 个
+         *
+         * @param string $magnet      原始 magnet 链接（支持带 &amp; 的 HTML 实体形式）
+         * @param int    $maxTrackers 最多保留几个 tracker，默认 5
+         * @return string             处理后的 magnet 链接
+         */
+        protected static function limitMagnetTrackers(string $magnet, int $maxTrackers = 5): string
+        {
+            // 先把 HTML 实体还原成真正的 &
+            $magnet = html_entity_decode($magnet, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+            // 不是 magnet 链接直接返回
+            if (stripos($magnet, 'magnet:?') !== 0) {
+                return $magnet;
+            }
+
+            // 去掉 "magnet:?" 前缀，按 & 拆分参数
+            $query = substr($magnet, 8);
+            $parts = explode('&', $query);
+
+            $result        = [];
+            $trackerCount  = 0;
+
+            foreach ($parts as $part) {
+                // 空参数跳过
+                if ($part === '') {
+                    continue;
+                }
+
+                // 判断是否是 tracker（tr= 或 tr%3D 都兼容）
+                if (stripos($part, 'tr=') === 0 || stripos($part, 'tr%3D') === 0) {
+                    if ($trackerCount < $maxTrackers) {
+                        $result[] = $part;
+                        $trackerCount++;
+                    }
+                    // 超过数量的 tracker 直接丢弃
+                    continue;
+                }
+
+                // 非 tracker 参数全部保留（xt、dn、xl 等）
+                $result[] = $part;
+            }
+
+            return 'magnet:?' . implode('&', $result);
         }
 
         /**********************************************************************************/

@@ -37,7 +37,6 @@
             $this->initHttpClient(); // 重新实例化以应用新代理
         }
 
-
         public function backupCvoerImage(): void
         {
             $gameTable   = $this->gameUpdater->gameSourceManager->getGameTable();
@@ -89,7 +88,7 @@
                     return false;
                 }
 
-                $fileIds = $this->sendImageMessage($imagePaths, $currentChatId, $this->gameUpdater->backupImageBotToken, date("Y-m-d H:i:s", time()));
+                $fileIds = $this->sendImageMessage($imagePaths, $currentChatId, $this->gameUpdater->backupImageBotToken, '封面：' . date("Y-m-d H:i:s", time()));
 
                 //发成功一次就换一个chat，不停循环
                 $chatIdIndex++;
@@ -198,7 +197,7 @@
                     return false;
                 }
 
-                $fileIds = $this->sendImageMessage($imagePaths, $currentChatId, $this->gameUpdater->backupImageBotToken, date("Y-m-d H:i:s", time()));
+                $fileIds = $this->sendImageMessage($imagePaths, $currentChatId, $this->gameUpdater->backupImageBotToken, '截图：' . date("Y-m-d H:i:s", time()));
 
                 //发成功一次就换一个chat，不停循环
                 $chatIdIndex++;
@@ -327,7 +326,6 @@
             return $resultMap;
         }
 
-
         /**
          * 发送纯文本消息（支持富文本/限流自动重试）
          *
@@ -358,6 +356,8 @@
             // 过滤 null，避免 API 收到空值
             $params = array_filter($params, fn($v) => !is_null($v));
 
+            $this->log('sendMessage data: ' . json_encode($params, JSON_UNESCAPED_UNICODE), 'info');
+
             $response = $this->executeWithRetry(function() use ($telegram, $params) {
                 return $telegram->sendMessage($params);
             }, $maxRetries);
@@ -383,30 +383,6 @@
             return null;
         }
 
-
-        /**
-         * 向结果 map 写入 file_id
-         * - 正常情况用原始 path 做 key，保证调用方能反查
-         * - 若同一 path 出现多次，自动追加 #2、#3... 防止覆盖，同时保持可读性
-         * - 返回值顺序与传入 $images 顺序一致（通过调用时机保证）
-         */
-        protected function addToResultMap(array &$resultMap, array &$pathCounter, $path, ?string $fileId): void
-        {
-            if ($fileId === null)
-            {
-                return;
-            }
-
-            $key = (string)$path;
-            if (isset($resultMap[$key]))
-            {
-                $pathCounter[$key] = ($pathCounter[$key] ?? 1) + 1;
-                $key               = $key . '#' . $pathCounter[$key];
-            }
-
-            $resultMap[$key] = $fileId;
-        }
-
         /**
          * 发送单张图片（本地文件 / file_id / URL 均支持）
          * caption 是否挂载由调用方决定（通常只给第一组第一张）
@@ -426,6 +402,8 @@
 
             // 过滤 null，避免 API 收到空值
             $params = array_filter($params, fn($v) => !is_null($v));
+
+            $this->log('sendPhoto data: ' . json_encode($params, JSON_UNESCAPED_UNICODE), 'info');
 
             $response = $this->executeWithRetry(function() use ($telegram, $params) {
                 return $telegram->sendPhoto($params);
@@ -470,13 +448,7 @@
                 foreach ($chunkImages as $index => $imagePath)
                 {
                     $type = is_string($imagePath) && is_file($imagePath) ? 'LOCAL_FILE' : 'FILE_ID_OR_URL';
-                    $this->log(sprintf(
-                        'media[%d] type=%s value=%s is_file=%s',
-                        $index,
-                        $type,
-                        is_string($imagePath) ? (strlen($imagePath) > 80 ? substr($imagePath, 0, 80).'...' : $imagePath) : gettype($imagePath),
-                        is_string($imagePath) ? (is_file($imagePath) ? 'yes' : 'no') : 'n/a'
-                    ), 'info');
+                    $this->log(sprintf('media[%d] type=%s value=%s is_file=%s', $index, $type, is_string($imagePath) ? (strlen($imagePath) > 80 ? substr($imagePath, 0, 80) . '...' : $imagePath) : gettype($imagePath), is_string($imagePath) ? (is_file($imagePath) ? 'yes' : 'no') : 'n/a'), 'info');
 
                     if (is_string($imagePath) && is_file($imagePath))
                     {
@@ -540,6 +512,8 @@
                     ];
                 }
 
+                $this->log('sendMediaGroup data: ' . json_encode($multipartData, JSON_UNESCAPED_UNICODE), 'info');
+
                 return $telegram->post('sendMediaGroup', $multipartData, true);
             }, $maxRetries);
 
@@ -583,6 +557,29 @@
             }
 
             return $chunkResult;
+        }
+
+        /**
+         * 向结果 map 写入 file_id
+         * - 正常情况用原始 path 做 key，保证调用方能反查
+         * - 若同一 path 出现多次，自动追加 #2、#3... 防止覆盖，同时保持可读性
+         * - 返回值顺序与传入 $images 顺序一致（通过调用时机保证）
+         */
+        protected function addToResultMap(array &$resultMap, array &$pathCounter, $path, ?string $fileId): void
+        {
+            if ($fileId === null)
+            {
+                return;
+            }
+
+            $key = (string)$path;
+            if (isset($resultMap[$key]))
+            {
+                $pathCounter[$key] = ($pathCounter[$key] ?? 1) + 1;
+                $key               = $key . '#' . $pathCounter[$key];
+            }
+
+            $resultMap[$key] = $fileId;
         }
 
         /**

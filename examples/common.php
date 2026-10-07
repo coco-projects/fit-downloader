@@ -53,9 +53,12 @@ AAA;
 
         /**********************************/
         'cachePath'           => './downloadCache',
-        //        'imageBaseUrl'        => 'https://static.hohohogames.com/game-images/',
-        'imageBaseUrl'        => 'http://dev6026/coco-fitDownloader/examples/data/',
-        'imagePath'           => 'data',
+
+        'imageBaseUrl'        => 'https://static.hohohogames.com/game-images/',
+        'imagePath'           => '/var/game-images',
+
+//        'imageBaseUrl'        => 'http://dev6026/coco-fitDownloader/examples/data/',
+//        'imagePath'           => 'data',
 
         'mainSite' => 'https://www.hohohogames.com/',
 
@@ -92,7 +95,7 @@ AAA;
     ];
 
     $gameUpdater = new \Coco\fitDownloader\GameUpdater($config);
-    $gameUpdater->setLangCn();
+    $gameUpdater->setLangEn();
 
 //    $imagePath = '/var/game-images/';
     $imagePath = 'data';
