@@ -35,7 +35,8 @@
         ];
 
         protected array $indexSentence = [
-            "name" => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
+            "cover_link" => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
+            "name"       => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
         ];
 
         public function setNameField(string $value): static

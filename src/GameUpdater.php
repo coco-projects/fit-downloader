@@ -926,6 +926,24 @@
         // to tg
         /**********************************************************************************/
 
+        private static function makeProcessData(int $processPostId, int $processPostIdStatus): string
+        {
+            return implode('-', [
+                $processPostId,
+                $processPostIdStatus,
+            ]);
+        }
+
+        private static function parseProcessData(string $processData): array
+        {
+            $data = explode('-', $processData);
+
+            return [
+                "processPostId"       => (int)($data[0] ?? 0),
+                "processPostIdStatus" => (int)($data[1] ?? 0),
+            ];
+        }
+
         public function sendToTgMessage()
         {
             $gameImagesTable = $this->gameSourceManager->getGameImagesTable();
@@ -935,9 +953,21 @@
             is_dir(dirname($processFile)) or mkdir(dirname($processFile), 0755, true);
 
             $processPostId = 0;
+
+            //0：一个信息都没发，1：发了一条信息，2：发了两个信息
+            $processPostIdStatus = 0;
+
+            if (!is_file($processFile))
+            {
+                file_put_contents($processFile, static::makeProcessData(0, 0));
+            }
+
             if (is_file($processFile))
             {
-                $processPostId = (int)file_get_contents($processFile);
+                $data = static::parseProcessData(file_get_contents($processFile));
+
+                $processPostId       = $data['processPostId'];
+                $processPostIdStatus = $data['processPostIdStatus'];
             }
 
             $where = [];
@@ -947,12 +977,13 @@
                 $where = [
                     [
                         $gameTable->getPkField(),
-                        '>',
+                        '>=',
                         $processPostId,
                     ],
                 ];
 
-                $this->gameSourceManager->getMysqlClient()->logInfo('进度文件：' . $processPostId);
+                $this->gameSourceManager->getMysqlClient()
+                    ->logInfo('进度文件：' . static::makeProcessData($processPostId, $processPostIdStatus));
             }
 
             $postIds = $gameTable->tableIns()/*
@@ -976,25 +1007,41 @@
 
                 //正文内容
                 $contents = $this->makeTgMessageContentByPostInfo($post);
-                $this->gameSourceManager->getMysqlClient()->logInfo('创建文章: ' . ($k + 1) . '--' . $title);
 
-                $fileIds = $this->tgManager->sendImageMessage($contents['images'], $this->postTgChatId, $this->postTgBotToken, $contents['html'], 'html');
-
-                $this->gameSourceManager->getMysqlClient()->logInfo('等 1 S');
-                sleep(1);
-
-                $messageId = $this->tgManager->sendTextMessage($contents['download'], $this->postTgChatId, $this->postTgBotToken, 'html');
-
-                if ($messageId)
+                if ($processPostIdStatus < 1)
                 {
-                    $this->gameSourceManager->getMysqlClient()->logInfo('两条信息发成功，写入进度文件：' . $postId);
-                    file_put_contents($processFile, $postId);
+                    $this->gameSourceManager->getMysqlClient()->logInfo('创建文章: ' . ($k + 1) . '--' . $title);
+
+                    $fileIds = $this->tgManager->sendImageMessage($contents['images'], $this->postTgChatId, $this->postTgBotToken, $contents['html'], 'html');
+
+                    file_put_contents($processFile, static::makeProcessData($postId, 1));
+
+                    $this->gameSourceManager->getMysqlClient()->logInfo('等 1 S');
+                    sleep(1);
                 }
 
-                $t = rand($this->postTgSleepMin, $this->postTgSleepMax);
-                $this->gameSourceManager->getMysqlClient()->logInfo('等 ' . $t . ' S');
+                if ($processPostIdStatus < 2)
+                {
+                    $messageId = $this->tgManager->sendTextMessage($contents['download'], $this->postTgChatId, $this->postTgBotToken, 'html');
 
-                sleep($t);
+                    if ($messageId)
+                    {
+                        $this->gameSourceManager->getMysqlClient()->logInfo('两条信息发成功，写入进度文件：' . $postId);
+                        file_put_contents($processFile, static::makeProcessData($postId, 2));
+                    }
+
+                    $t = rand($this->postTgSleepMin, $this->postTgSleepMax);
+                    $this->gameSourceManager->getMysqlClient()->logInfo('等 ' . $t . ' S');
+                    sleep($t);
+                }
+
+                if ($processPostIdStatus == 2)
+                {
+                    $this->gameSourceManager->getMysqlClient()->logInfo('两个信息都发送完：' . $processPostId);
+                }
+
+                $processPostId       = 0;
+                $processPostIdStatus = 0;
             }
 
         }
@@ -1117,7 +1164,7 @@
             {
                 $downloadParts[] = TelegramTagHTML::b($this->langEcho('manual_download'));
                 $downloadParts[] = TelegramTagHTML::title($this->langEcho('download_mirrors') . ':');
-                $downloadParts[] = TelegramTagHTML::blockquote(static::limitMagnetTrackers($downloadLink,5));
+                $downloadParts[] = TelegramTagHTML::blockquote(static::limitMagnetTrackers($downloadLink, 5));
             }
             else
             {
@@ -1138,6 +1185,7 @@
          *
          * @param string $magnet      原始 magnet 链接（支持带 &amp; 的 HTML 实体形式）
          * @param int    $maxTrackers 最多保留几个 tracker，默认 5
+         *
          * @return string             处理后的 magnet 链接
          */
         protected static function limitMagnetTrackers(string $magnet, int $maxTrackers = 5): string
@@ -1146,7 +1194,8 @@
             $magnet = html_entity_decode($magnet, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
             // 不是 magnet 链接直接返回
-            if (stripos($magnet, 'magnet:?') !== 0) {
+            if (stripos($magnet, 'magnet:?') !== 0)
+            {
                 return $magnet;
             }
 
@@ -1154,18 +1203,22 @@
             $query = substr($magnet, 8);
             $parts = explode('&', $query);
 
-            $result        = [];
-            $trackerCount  = 0;
+            $result       = [];
+            $trackerCount = 0;
 
-            foreach ($parts as $part) {
+            foreach ($parts as $part)
+            {
                 // 空参数跳过
-                if ($part === '') {
+                if ($part === '')
+                {
                     continue;
                 }
 
                 // 判断是否是 tracker（tr= 或 tr%3D 都兼容）
-                if (stripos($part, 'tr=') === 0 || stripos($part, 'tr%3D') === 0) {
-                    if ($trackerCount < $maxTrackers) {
+                if (stripos($part, 'tr=') === 0 || stripos($part, 'tr%3D') === 0)
+                {
+                    if ($trackerCount < $maxTrackers)
+                    {
                         $result[] = $part;
                         $trackerCount++;
                     }

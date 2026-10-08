@@ -19,6 +19,7 @@
 
         protected array $indexSentence = [
             "game_id" => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
+            "path"    => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
             "type"    => "KEY `__INDEX__NAME___index` ( __FIELD__NAME__ ),",
         ];
 

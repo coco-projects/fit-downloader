@@ -5,25 +5,25 @@
     require '../vendor/autoload.php';
 
     $headerStr = <<<AAA
-sec-ch-ua: "Google Chrome";v="153", "Not_A Brand";v="8", "Chromium";v="153"
+sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"
 sec-ch-ua-mobile: ?0
-sec-ch-ua-full-version: "153.0.8010.53"
+sec-ch-ua-full-version: "154.0.8037.99"
 sec-ch-ua-arch: "x86"
 sec-ch-ua-platform: "Windows"
 sec-ch-ua-platform-version: "7.0.0"
 sec-ch-ua-model: ""
 sec-ch-ua-bitness: "64"
-sec-ch-ua-full-version-list: "Google Chrome";v="153.0.8010.53", "Not_A Brand";v="8.0.0.0", "Chromium";v="153.0.8010.53"
+sec-ch-ua-full-version-list: "Chromium";v="154.0.8037.99", "Google Chrome";v="154.0.8037.99", "Not A(Brand";v="99.0.0.0"
 Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
-Sec-Fetch-Site: same-site
+Sec-Fetch-Site: none
 Sec-Fetch-Mode: navigate
 Sec-Fetch-User: ?1
 Sec-Fetch-Dest: document
-Referer: https://ru.riotpixels.com/
 Accept-Language: zh-CN,zh;q=0.9
-Cookie: tmr_lvid=d7a506bbf84ba76dd79742d05a41717f; tmr_lvidTS=1770020759034; _ym_uid=1770020759755697874; _ym_d=1786286890; rp_utc_offset=28800; rp_cdn_tld=net; adtech_uid=97d238f4-61ee-4858-a042-41d18e6054ae%3Ariotpixels.com; top100_id=t1.2946854.435900933.1786286895058; perf_dv6Tr4n=1; __utmc=87815244; rp_language_suggestion_skip=1; popdown=0; _ym_visorc=b; rp_cdn_check=1; _ym_isad=1; cf_clearance=gSgRfoIENXo2erG8t_2hmZAu2hzrZfAnRhjWsxYu3x0-1790090328-1.2.1.1-4TuTMoiXNf7r1hq7ybfONv3LDeNWSY8QWxJGMsF26xtODB8g6ZyjJRSEI8p_AdR7fUvpGh0IJWMQlw8mwBeBoe4Aix3Aq0AnUef7OvVNMLb5cyunDoVfxZVm0EGj3kQ6P3yxe._Xt8HVjda0bx9TxI_FwBm9A_WTnYL53buZUwQfXjZcaHMBVoiOu6p_5SDRzJ_tY1pslPIIXsDMDnyPlDalzYNY8uqAlnb2FIVo1jTbc.ZAlqrmLEl3gzD6OXeId336G46YYV5sf5jUohiz8haB4vm1pagwH34dvR0N4JAT1Uw0vab_K9RKg4UIcer8mtFfnKTE0h.qlXEm1lBffaEj6cUJEwd.bKttOft.0LSOBA63u8CALYjWwb4NY9wl5RRtU8l7Yt8run4u7xdK..Zjh.FRcgQR56qDqlwmelEf21HkGu.IVtHPWEZv26s1ZT1hDP2LBxKgFzDy1RXIg34QPMQ1dB.wCBlaEpBAU5PQ_O6nDvn5aY0neUXp9NxQ; rp_session=eyIuY3NyZiI6eyIgYiI6IlpURXhaak0wTlRZd1pqUTNORGN5TVRnNE5XWmlNVFkyT1RJeE4yVmlaVGM9In19.HZQt5Q.mS_NLWYcOsj4bmTKVmZ2-zf-5VQ; __utma=87815244.393941936.1786286926.1789531037.1790090320.4; __utmz=87815244.1790090320.4.2.utmcsr=ru.riotpixels.com|utmccn=(referral)|utmcmd=referral|utmcct=/; __utmt=1; __utmb=87815244.2.9.1790090320; t3_sid_2946854=s1.729512012.1790090183153.1790090320514.4.6.4.1...0; domain_sid=o-ik46k06TFCSp-McQWN9%3A1790090322758; tmr_detect=0%7C1790090323332
+Cookie: tmr_lvid=d7a506bbf84ba76dd79742d05a41717f; tmr_lvidTS=1770020759034; _ym_uid=1770020759755697874; _ym_d=1786286890; rp_utc_offset=28800; rp_cdn_tld=net; adtech_uid=97d238f4-61ee-4858-a042-41d18e6054ae%3Ariotpixels.com; top100_id=t1.2946854.435900933.1786286895058; rp_language_suggestion_skip=1; __utmz=87815244.1790090320.4.2.utmcsr=ru.riotpixels.com|utmccn=(referral)|utmcmd=referral|utmcct=/; rp_session=eyIuY3NyZiI6eyIgYiI6Ill6SmlPVGd4TnpVMU9HTXdOV0l6TnpWa01UZ3hZakJtWldVNVpUZzJNRFk9In19.HafiiQ.kQXFzEKvwy0Dj19-_9uRIDOpbAM; popdown=0; __utma=87815244.393941936.1786286926.1790090320.1791381692.5; __utmc=87815244; __utmt=1; cf_clearance=HhqrZ2wE8vBX6bxd2z3AH21jwiYDqLoI7QxU.2.CRQQ-1791381779-1.2.1.1-fnNn8WHOyRAVZI_J5ijFIH26Pb6mDm0e6S5MO0RR_2XIadpErur2xEOfzCgzGq9F4gbvz7THZanmJu_BN_8RNuWza0t6fS9fUw5VR6T5G.RJyT2lBLPjWLaO4tKDiWLV1xu8P608S_MIW_jPdklwWRL.nP8gM6w.jjFHGRVwKxHKhsiVT2jfkqx5iQm7dLeNAT8pA.6X3b2uGJbmuybphMmGuMiaPcF5QYvxeCgHAfC3oD17LKwyVSWzKvW5wE9z0U.oLWy4Ew0C9VSMMh3FGAeOqQMGoeCl7h0sRPGctSdiKQLzXpZtz.rxDjYhPrh6MG_JrkU1crW2Ul1t6mdi5Pro2Fr4d5Dz6Hgm6cMmjCaPJB7DWpRtIczqLkgRDjX4PBw1yBJyx54p97o1aXXWGHQrMMCgnTFEtmBlQlQFN7Eug_GRWwLBZxytZDQfZA9up2kkxLsuQOUc37M7Sfk_5ASLcio0KrxZ6Irq3d.zEm.X.O46UJ2in4Pn2hQURHp1aT.rvsuvjMCO9Wvzq_64lQ; rp_cdn_check=1; tmr_detect=1%7C1791381696986; perf_dv6Tr4n=1; _ym_isad=1; _ym_visorc=b; __utmb=87815244.4.9.1791381704706; t3_sid_2946854=s1.2013214073.1791381699482.1791381714483.5.3.1.1...0
+
 
 AAA;
 
