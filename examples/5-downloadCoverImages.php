@@ -5,7 +5,7 @@
     //下载封面图
     while (true)
     {
-        $gameUpdater->gameSourceManager->downloadCoverImages($imagePath);
+        $gameUpdater->downloadCoverImages();
 
         echo "等 $wait S";
         echo PHP_EOL;

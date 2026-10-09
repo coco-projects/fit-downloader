@@ -6,13 +6,6 @@
     require './common.php';
 
     /**
-     * TelegramContent + TelegramTag 完整调用 Demo
-     *
-     * 演示目标：
-     * 1. TelegramTag 的所有原子方法（转义、加粗、链接、列表、话题标签等）
-     * 2. TelegramContent::toString 如何把多个片段按顺序拼成最终 caption / text
-     * 3. 常用业务场景：游戏更新通知、带图文 caption、纯文本消息
-     *
      * 使用方式：
      * parse_mode 必须设为 HTML（因为 TelegramTag 生成的是 HTML 标签）
      */
@@ -169,25 +162,25 @@
     /**
      * 模拟一次游戏更新的数据
      */
-    $gameTitle = 'Supporter Edition – v1.1.3.0 (MS Store) + Bonus OST';
-    $version = 'v1.1.3.0';
-    $size = '12.3 GB';
+    $gameTitle  = 'Supporter Edition – v1.1.3.0 (MS Store) + Bonus OST';
+    $version    = 'v1.1.3.0';
+    $size       = '12.3 GB';
     $repackSize = '4.8 GB';
-    $siteUrl = 'https://fitgirl-repacks.site/supporter-edition';
-    $magnet = 'magnet:?xt=urn:btih:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-    $genres = [
+    $siteUrl    = 'https://fitgirl-repacks.site/supporter-edition';
+    $magnet     = 'magnet:?xt=urn:btih:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+    $genres     = [
         'Action',
         'RPG',
         '2D',
         'Open World',
     ];
-    $features = [
+    $features   = [
         '完整支持者版内容',
         '附赠完整 OST',
         '修复启动崩溃',
         '支持中文界面',
     ];
-    $changelog = "1. 修复了部分机型黑屏问题\n2. 优化了内存占用\n3. 新增成就系统";
+    $changelog  = "1. 修复了部分机型黑屏问题\n2. 优化了内存占用\n3. 新增成就系统";
 
     /**
      * 用 TelegramTag 生成各个原子片段，再用 TelegramContent 组装

@@ -336,7 +336,49 @@
         }
 
         /**********************************************************************************/
-        // to wp
+        // 采集
+        /**********************************************************************************/
+
+        public function downloadArchives(array $archives): void
+        {
+            $this->gameSourceManager->downloadArchives($archives);
+        }
+
+        public function downloadMainPageMetas(): void
+        {
+            $this->gameSourceManager->downloadMainPageMetas();
+        }
+
+        public function downloadImageMetas(): void
+        {
+            $this->gameSourceManager->downloadImageMetas();
+        }
+
+        public function downloadCoverImages(): void
+        {
+            $this->gameSourceManager->downloadCoverImages($this->imagePath);
+        }
+
+        public function downloadScreenshotImages(): void
+        {
+            $this->gameSourceManager->downloadScreenshotImages($this->imagePath);
+        }
+
+        public function compressCvoerImage(): void
+        {
+            $this->gameSourceManager->compressCvoerImage($this->imagePath);
+            $this->gameSourceManager->deleteErrorCvoerImage($this->imagePath);
+        }
+
+        public function compressScreenShotImage(): void
+        {
+            $this->gameSourceManager->compressScreenShotImage($this->imagePath);
+            $this->gameSourceManager->deleteErrorScreenShotImage($this->imagePath);
+        }
+
+
+        /**********************************************************************************/
+        // wp
         /**********************************************************************************/
 
         public function updateToWpPost(callable $payPostCallback = null, int $typeId = 1, bool $insertOnly = false): void
@@ -495,6 +537,24 @@
              *
              * **/
             $this->wpManager->updateTagsCount();
+        }
+
+        public function updateAllPostView($viewsMin = 1, $viewsMax = 20, $force = false): void
+        {
+            $this->wpManager->updateAllPostView($viewsMin, $viewsMax, $force);
+        }
+
+        public function updateAllPostPublishTime($begin, $end, $times, $force = true): void
+        {
+            $this->wpManager->updateAllPostPublishTime($begin, $end, $times, $force);
+        }
+
+        public function clearWpDb(): void
+        {
+            $this->wpManager->deleteAllTags();
+            $this->wpManager->purgePostMeta();
+            $this->wpManager->deleteAllPost();
+            $this->wpManager->deleteAllTags();
         }
 
         protected function getAllWpPost(): \think\model\Collection|\think\Collection
@@ -923,28 +983,10 @@
 
 
         /**********************************************************************************/
-        // to tg
+        // tg
         /**********************************************************************************/
 
-        private static function makeProcessData(int $processPostId, int $processPostIdStatus): string
-        {
-            return implode('-', [
-                $processPostId,
-                $processPostIdStatus,
-            ]);
-        }
-
-        private static function parseProcessData(string $processData): array
-        {
-            $data = explode('-', $processData);
-
-            return [
-                "processPostId"       => (int)($data[0] ?? 0),
-                "processPostIdStatus" => (int)($data[1] ?? 0),
-            ];
-        }
-
-        public function sendToTgMessage()
+        public function sendToTgMessage(): void
         {
             $gameImagesTable = $this->gameSourceManager->getGameImagesTable();
             $gameTable       = $this->gameSourceManager->getGameTable();
@@ -1007,21 +1049,19 @@
 
                 //正文内容
                 $contents = $this->makeTgMessageContentByPostInfo($post);
+                $this->gameSourceManager->getMysqlClient()->logInfo('创建文章: ' . ($k + 1) . '--' . $title);
 
                 if ($processPostIdStatus < 1)
                 {
-                    $this->gameSourceManager->getMysqlClient()->logInfo('创建文章: ' . ($k + 1) . '--' . $title);
-
+                    $this->gameSourceManager->getMysqlClient()->logInfo('发送游戏介绍: ' . $title);
                     $fileIds = $this->tgManager->sendImageMessage($contents['images'], $this->postTgChatId, $this->postTgBotToken, $contents['html'], 'html');
 
                     file_put_contents($processFile, static::makeProcessData($postId, 1));
-
-                    $this->gameSourceManager->getMysqlClient()->logInfo('等 1 S');
-                    sleep(1);
                 }
 
                 if ($processPostIdStatus < 2)
                 {
+                    $this->gameSourceManager->getMysqlClient()->logInfo('发送下载连接: ' . $title);
                     $messageId = $this->tgManager->sendTextMessage($contents['download'], $this->postTgChatId, $this->postTgBotToken, 'html');
 
                     if ($messageId)
@@ -1037,7 +1077,7 @@
 
                 if ($processPostIdStatus == 2)
                 {
-                    $this->gameSourceManager->getMysqlClient()->logInfo('两个信息都发送完：' . $processPostId);
+                    $this->gameSourceManager->getMysqlClient()->logInfo('都已发送完：' . $processPostId . '-' . $title);
                 }
 
                 $processPostId       = 0;
@@ -1046,12 +1086,12 @@
 
         }
 
-        public function backupCvoerImage()
+        public function backupCvoerImage(): void
         {
             $this->tgManager->backupCvoerImage();
         }
 
-        public function backupScreenShotImage()
+        public function backupScreenShotImage(): void
         {
             $this->tgManager->backupScreenShotImage();
         }
@@ -1179,7 +1219,6 @@
             return $result;
         }
 
-
         /**
          * 截断 magnet 链接中的 tracker，只保留前 N 个
          *
@@ -1233,6 +1272,24 @@
             return 'magnet:?' . implode('&', $result);
         }
 
+        private static function makeProcessData(int $processPostId, int $processPostIdStatus): string
+        {
+            return implode('-', [
+                $processPostId,
+                $processPostIdStatus,
+            ]);
+        }
+
+        private static function parseProcessData(string $processData): array
+        {
+            $data = explode('-', $processData);
+
+            return [
+                "processPostId"       => (int)($data[0] ?? 0),
+                "processPostIdStatus" => (int)($data[1] ?? 0),
+            ];
+        }
+
         /**********************************************************************************/
         //common
         /**********************************************************************************/
@@ -1270,6 +1327,5 @@
                 return 0;
             }
         }
-
 
     }

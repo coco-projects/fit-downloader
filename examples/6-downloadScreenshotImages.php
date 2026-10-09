@@ -5,7 +5,7 @@
     //下载剧照
     while (true)
     {
-        $gameUpdater->gameSourceManager->downloadScreenshotImages($imagePath);
+        $gameUpdater->downloadScreenshotImages();
 
         echo "等 $wait S";
         echo PHP_EOL;

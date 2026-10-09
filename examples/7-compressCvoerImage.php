@@ -6,8 +6,7 @@
 
     while (true)
     {
-        $gameUpdater->gameSourceManager->compressCvoerImage($imagePath);
-        $gameUpdater->gameSourceManager->deleteErrorCvoerImage($imagePath);
+        $gameUpdater->compressCvoerImage();
 
         echo "等 $wait S";
         echo PHP_EOL;

@@ -3,7 +3,7 @@
     require './common.php';
 
     //采集基础数据
-    $gameUpdater->gameSourceManager->downloadArchives([
+    $gameUpdater->downloadArchives([
         /*
                 'https://fitgirl-repacks.site/2016/07/',
                 'https://fitgirl-repacks.site/2016/08/',

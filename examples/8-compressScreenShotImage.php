@@ -6,8 +6,7 @@
 
     while (true)
     {
-        $gameUpdater->gameSourceManager->compressScreenShotImage($imagePath);
-        $gameUpdater->gameSourceManager->deleteErrorScreenShotImage($imagePath);
+        $gameUpdater->compressScreenShotImage();
 
         echo "等 $wait S";
         echo PHP_EOL;
