@@ -98,8 +98,12 @@ AAA;
     $gameUpdater->setLangEn();
 
     $wait = 2;
-    //1,跑 demo1
-    //2,跑 demo2
-    //3,同时跑 demo3,demo4
-    //4,demo3 可跑 demo5
-    //5,demo4 可跑 demo6
+    //先跑 2
+    //同时跑 3, 4
+    //3 跑完可跑 5
+    //4 跑完可跑 6
+    //5 跑完可跑 7
+    //6 跑完可跑 8
+
+    //跑 500
+    //跑 501
