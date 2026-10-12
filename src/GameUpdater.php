@@ -398,8 +398,7 @@
 
             ->order($gameTable->getPkField())->column($gameTable->getPkField());
 
-            $wpPosts = $this->getAllWpPost();
-            $wpIds   = $wpPosts->column($wpPostTab->getGuidField());
+            $wpIds = $this->getAllWpPostColumn($wpPostTab->getGuidField());
 
             $arrs = static::compareArrays($postIds, $wpIds);
 
@@ -492,7 +491,7 @@
                     $postId = $post[$gameTable->getPkField()];
                     $title  = $post[$gameTable->getNameField()];
 
-                    $price = call_user_func_array($payPostCallback, [$post]);
+                    $price = call_user_func_array($payPostCallback, [$post,$this]);
                     $isPay = $price > 0;
 
                     $contents = $this->makePostContentByPostInfo($post, $isPay);
@@ -568,6 +567,19 @@
                     '^[0-9]{18,20}$',
                 ],
             ])->order($wpPostTab->getGuidField())->select();
+        }
+
+        protected function getAllWpPostColumn(string $column): array
+        {
+            $wpPostTab = $this->wpManager->getPostsTable();
+
+            return $wpPostTab->tableIns()->where([
+                [
+                    $wpPostTab->getGuidField(),
+                    'regexp',
+                    '^[0-9]{18,20}$',
+                ],
+            ])->order($wpPostTab->getGuidField())->column($column);
         }
 
         protected function makePostContentByPostInfo(array $post, bool $isPay = false): string

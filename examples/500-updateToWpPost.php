@@ -4,6 +4,8 @@
 
     $func = function($post, \Coco\fitDownloader\GameUpdater $_this) {
 
+        return 0;
+
         $gameTable = $_this->gameSourceManager->getGameTable();
 
         $tags          = explode(',', $post[$gameTable->getTagsField()]);
